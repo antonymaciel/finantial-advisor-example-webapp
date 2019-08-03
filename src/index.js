@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import 'foundation-sites/dist/css/foundation.min.css';
 import configureStore from './configureStore'
 import ReactDOM from 'react-dom';
 import Router from './navigation/router' 

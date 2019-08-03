@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { Button, Colors } from 'react-foundation';
 
 class Home extends React.Component {
     constructor(props){
@@ -13,7 +14,7 @@ class Home extends React.Component {
         return (
             <div>
                  <Link to="/recomend">Go to Recomend</Link>
-                <button onClick={() => alert('click')}>Click Me!</button>
+                 <Button onClick={() => alert('click')} color={Colors.SUCCESS}>Submit</Button>
             </div>
         );
     }
