@@ -1,0 +1,37 @@
+@import "~bulma/sass/utilities/_all.sass";
+@import "~bulma/sass/base/_all.sass";
+@import "~bulma/sass/elements/_all.sass";
+@import "~bulma/sass/layout/_all.sass";
+
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #FFFFFF;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $beige-lighter;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+
+.containerpage {
+    background-color: $primary;
+    position: absolute;
+    padding-right: 20px;
+    padding-left: 20px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}

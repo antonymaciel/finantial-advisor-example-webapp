@@ -1,29 +1,39 @@
 import React from "react"
 import { connect } from 'react-redux'
+import { selectPortfolio } from '../actions/portfolios'
 import Home from "../screens/home"
 
 class HomeContainer extends React.Component {
-    constructor(props){
+	constructor(props){
 		super(props);
-		this.state= {
-			test:'hello'
-		}
-    }
+		this.onSelect = this.onSelect.bind(this);
+	}
+	
+	onSelect(risk) {
+		this.props.selectPortfolio(risk);
+	}
 
     render() {
-        return (
-			<div>
-           		<Home />
-			</div>
-        );
+		const { data } = this.props;
+		return (
+			<Home 
+				riskSelected={data.selectedPortfolio}
+				portfolios={data.portfolios}
+				onSelect={this.onSelect}
+			/>
+		);
     }
 }
 
 
 const mapStateToProps = (state) => {
 	return {
-		portfolios: state.portfolios
+		data: state.data
 	}
 }
 
-export default connect(mapStateToProps, null)(HomeContainer);
+const mapDispatchToProps = dispatch => ({
+	selectPortfolio: (portfolio) => dispatch(selectPortfolio(portfolio)),
+  });
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
