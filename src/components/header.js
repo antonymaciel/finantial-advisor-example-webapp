@@ -7,9 +7,8 @@ class Header extends React.Component {
     render() {
         return (
             <div className="section flex header">
-                <img className="logo" />
-                <Link to="/">Home</Link> 
-                <Link to="/recomend">Recomendations</Link> 
+                <Link className="link" to="/">Home</Link> 
+                <Link className="link" to="/recomend">Recomendations</Link> 
             </div>
         );
     }
