@@ -6,37 +6,6 @@ import "../styles/screens/recomend.scss";
 import "../styles/index.scss";
 
 class Recomend extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            fields: new Array(props.categories.length).fill(0),
-            recomendations: [],
-            errors: new Array(props.categories.length).fill(false),
-            showError: false
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-
-    handleChange(event, field) {
-        const errorInput = parseInt(event.target.value, 10) <= 0;
-        let { fields, errors } = this.state;
-        fields[field] = event.target.value;
-        errors[field] = errorInput;
-        const and = (a, b) => a + b;
-        const showError = errors.reduce(and) === 1;
-        this.setState({fields: [...fields], errors, showError});
-    }
-
-    handleSubmit(event) {
-        if (!this.state.showError) {
-            const recomendations = this.props.calculteRecomendations(this.state.fields);
-            this.setState({recomendations}); 
-        }
-        event.preventDefault();
-    }
-
 
     renderRecomendation = (result) => {
         let className = "has-text-success";
@@ -52,8 +21,7 @@ class Recomend extends React.Component {
     }
 
     renderInputs = () => {
-        const { categories } = this.props;
-        const { recomendations } = this.state;
+        const { categories, handleChange, recomendations, fields } = this.props;
         const inputs = [];
         for (let i= 0; i < categories.length ; i++) {
             inputs.push(
@@ -64,8 +32,8 @@ class Recomend extends React.Component {
                     <input 
                         className="input-category"
                         type="number"
-                        value={this.state.fields[i]}
-                        onChange={(event) => this.handleChange(event, i)}
+                        value={fields[i]}
+                        onChange={(event) => handleChange(event, i)}
                         placeholder={0} />
                     { recomendations.length > 0 && this.renderRecomendation(recomendations[i]) }
                 </div>
@@ -101,12 +69,12 @@ class Recomend extends React.Component {
                         />
                     </div>
                     <div>
-                        <form onSubmit={(event) => this.handleSubmit(event)}>
+                        <form onSubmit={(event) => this.props.handleSubmit(event)}>
                             <h2 className="subtitle">Please input your actual investment($)</h2>
                             <div className="inputs-container">
                                 {this.renderInputs()}
                             </div>
-                            {this.state.showError && <h2 className="has-text-danger">Error: input positive values</h2>}
+                            {this.props.showError && <h2 className="has-text-danger error-msg">Error: input positive values</h2>}
                             <div className="flex button-recomend-container">
                                 <Button type="submit" value="Submit" className="button button-recomend">Calculate</Button>
                             </div>
