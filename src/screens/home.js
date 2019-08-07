@@ -29,7 +29,7 @@ class Home extends React.Component {
         return (
             <div className="containerpage flex">
                 <Header />
-                <div className="section flex">
+                <div>
                     <div className="griddle-container">
                         <Griddle 
                             data={this.props.portfolios} 
