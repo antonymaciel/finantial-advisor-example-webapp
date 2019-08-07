@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import portfolios from './portfolios'
+import data from './data'
 
 const reducers = combineReducers({
-    portfolios
+    data
 });
 
 export default reducers;

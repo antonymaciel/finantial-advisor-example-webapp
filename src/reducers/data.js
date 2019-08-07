@@ -1,22 +1,22 @@
-import { portfoliosData } from '../config/data/portfolios'
+import portfoliosData from '../config/data/portfolios'
 import { PORTFOLIOS_SELECT } from '../constants/portfolios'
 
 export const initialState = {
     portfolios: portfoliosData,
-    selected: null
+    selectedPortfolio: 1
 }
 
 
-const portfolios = (state = initialState, action) => {
+const data = (state = initialState, action) => {
     switch(action.type) {
         case PORTFOLIOS_SELECT:
             return {
                 ...state,
-                selected: action.id ? action.id : null
+                selectedPortfolio: action.portfolio ? action.portfolio : null
             };
         default:
                 return state;
     } 
 }
 
-export default portfolios;
+export default data;

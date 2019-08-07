@@ -1,6 +1,6 @@
-import { PORTFOLIOS_SELECT } from '../constants/porfolios'
+import { PORTFOLIOS_SELECT } from '../constants/portfolios'
 
-export const selectPortfolio = (id) => ({
+export const selectPortfolio = (portfolio) => ({
     type: PORTFOLIOS_SELECT,
-    id
+    portfolio
 });

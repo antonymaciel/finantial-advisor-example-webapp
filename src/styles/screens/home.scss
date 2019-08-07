@@ -1,0 +1,39 @@
+.risk-button {
+    margin: 15px;
+    min-height: 60px;
+    height: 60px;
+    min-width: 90px;
+}
+
+.subtitle {
+    font-style: italic;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+.link-recomend {
+   background-color:  #1779ba !important;
+   color: #ffffff !important;
+}
+
+.link-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.griddle-container {
+    overflow-x: auto;
+}
+
+.griddle-pagination {
+    display: none;
+}
+
+.griddle-settings-toggle {
+    display: none;
+}
+
+.griddle-filter {
+    display: none;
+}
