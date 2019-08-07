@@ -15,7 +15,7 @@ class Home extends React.Component {
             const classButton ="risk-button is-danger" + ((riskSelected !== element.Risk) ? " is-outlined" : "");
             riskbuttons.push(
                 <Button 
-                    key={element.risk} 
+                    key={element.Risk} 
                     className={classButton}
                     onClick={() => onSelect(element.Risk)}>
                         {'Risk ' + element.Risk}

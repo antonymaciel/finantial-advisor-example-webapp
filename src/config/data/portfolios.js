@@ -12,7 +12,7 @@ const portfolios = [
         Risk: 2, 
         Bonds: 70,
         LargeCap: 15,
-        MidCap: 0,
+        MidCap: 15,
         Foreign: 0,
         SmallCap: 0
     },

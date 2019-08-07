@@ -40,7 +40,6 @@ class RecomendContainer extends React.Component {
         const recomendations = [];
         const add = (a, b) => parseInt(a, 10) + parseInt(b, 10);
         const total = inputs.reduce(add);
-        console.log('total', total);
         for (let i= 0; i < chartData.length; i++) {
             recomendations[i] = chartData[i]* total / 100 - inputs[i];
         }
