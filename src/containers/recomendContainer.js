@@ -8,6 +8,7 @@ class RecomendContainer extends React.Component {
         this.state = {
             fields: new Array(props.categories.length).fill(0),
             recomendations: [],
+            transactions: [],
             errors: new Array(props.categories.length).fill(false),
             showError: false
         }
@@ -18,7 +19,8 @@ class RecomendContainer extends React.Component {
 
 
     handleChange(event, field) {
-        const errorInput = parseInt(event.target.value, 10) < 0;
+        const value = event.target.value;
+        const errorInput = value < 0 || Number.isInteger(value);
         let { fields, errors } = this.state;
         fields[field] = event.target.value;
         errors[field] = errorInput;
@@ -29,26 +31,91 @@ class RecomendContainer extends React.Component {
 
     handleSubmit(event) {
         if (!this.state.showError) {
-            const recomendations = this.calculteRecomendations(this.state.fields);
-            this.setState({recomendations}); 
+            const recomendations = this.calculteRecomendations();
+            const transactions = this.getTransactions([...recomendations])
+            this.setState({recomendations, transactions}); 
         }
         event.preventDefault();
     }
 
-    calculteRecomendations = (inputs) => {
+    calculteRecomendations = () => {
         const { chartData } = this.props;
+        const inputs = this.state.fields;
         const recomendations = [];
         const add = (a, b) => parseInt(a, 10) + parseInt(b, 10);
         const total = inputs.reduce(add);
         for (let i= 0; i < chartData.length; i++) {
-            recomendations[i] = chartData[i]* total / 100 - inputs[i];
+            const value= inputs[i] - chartData[i]* total / 100;
+            recomendations[i] = Math.round( value * 10) / 10;
         }
         return recomendations;
     }
 
+    getTransactions = (recomendations) => {
+        const { categories } = this.props;
+        const transactions = [];
+
+        // Priority 1: Iterate transfering the values when are the same but opposites
+        let indexOfMin = 0;
+        let indexOfMax = 0;
+        for(let i= 0; i < recomendations.length; i++ ) {
+            if (recomendations[i] !== 0) {
+                for(let j= i + 1; j < recomendations.length; j++) {
+                    if(recomendations[i] + recomendations[j] === 0) {
+                        if(recomendations[i] > 0) {
+                            transactions.push("Transfer $" + recomendations[i] + " from " + categories[i] + " to " + categories[j]);
+                        } else {
+                            transactions.push("Transfer $" + recomendations[j] + " from " + categories[j] + " to " + categories[i]);
+                        }
+                        recomendations[i] = 0;
+                        recomendations[j] = 0;
+                        break;
+                    }
+                }
+                            
+            }
+            //get max / min
+            if (recomendations[i] > recomendations[indexOfMax]) {
+                indexOfMax = i;
+            }
+
+            if (recomendations[i] < recomendations[indexOfMin]) {
+                indexOfMin = i;
+            }
+        }
+
+        // Priority 2: Iterate transfering from bigger to smaller 
+        let max = recomendations[indexOfMax];
+        let min = recomendations[indexOfMin];
+        while (max !== 0 && min !== 0) {
+            let value= recomendations[indexOfMax] + recomendations[indexOfMin];
+            if (recomendations[indexOfMax] > (recomendations[indexOfMin]*(-1))) {
+                transactions.push("Transfer $" + recomendations[indexOfMin]*(-1) + " from " + categories[indexOfMax] + " to " + categories[indexOfMin]);
+                recomendations[indexOfMax] = Math.round( value * 10) / 10;
+                recomendations[indexOfMin] = 0;
+            } else {
+                transactions.push("Transfer $" + recomendations[indexOfMax] + " from " + categories[indexOfMax] + " to " + categories[indexOfMin]);
+                recomendations[indexOfMin] = Math.round( value * 10) / 10;
+                recomendations[indexOfMax] = 0;
+            }
+            for(let i= 0; i <= recomendations.length; i++) {
+                if (recomendations[i] > recomendations[indexOfMax]) {
+                    indexOfMax = i;
+                }
+    
+                if (recomendations[i] < recomendations[indexOfMin]) {
+                    indexOfMin = i;
+                }
+            }
+            max = recomendations[indexOfMax];
+            min = recomendations[indexOfMin];
+        }
+        return transactions;
+    }
+
     render() {
         const { chartData, categories } = this.props;
-        const { fields, recomendations, showError } = this.state;
+        const { fields, recomendations, transactions, showError } = this.state;
         return (
             <Recomend 
                 chartData={chartData}
@@ -56,6 +123,7 @@ class RecomendContainer extends React.Component {
                 calculteRecomendations={this.calculteRecomendations}
                 fields={fields}
                 recomendations={recomendations}
+                transactions={transactions}
                 showError={showError}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
