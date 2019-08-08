@@ -85,7 +85,9 @@ class Recomend extends React.Component {
                     </div>
                     <div>
                         <form onSubmit={(event) => this.props.handleSubmit(event)}>
-                            <h2 className="subtitle">Please input your actual investment($)</h2>
+                            <div className="subtitle-container">
+                                <h2 className="subtitle">Please input your actual investment($)</h2>
+                            </div>
                             <div className="inputs-container">
                                 <div>
                                     {this.renderInputs()}
